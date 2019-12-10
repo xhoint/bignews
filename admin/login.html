@@ -38,6 +38,74 @@
     </div>
   </div>
 
+
+  <!-- 使用bootstrap中的模态框用来提示用户 -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
+
+<script src="./libs/http.js"></script>
+<script>
+  //使用jQuery，写一个入口函数
+  $(function () {
+    $('.input_sub').on('click', function (e) {
+      //按钮是一个submit按钮，有一个默认提交行为，我们不需要，要阻止
+      e.preventDefault();
+      //获取用户名和密码
+      let userName = $('.input_txt').val().trim();
+      let password = $('.input_pass').val().trim();
+      //做非空判断
+      if (userName == '' || password == '') {
+        $('.modal-body').text('憨批，用户名和密码能为空吗？');
+        $('#myModal').modal();
+        // 返回数据
+        return;
+      }
+      //发送ajax请求
+      $.ajax({
+        type: 'post',
+        // url: 'http://localhost:8080/api/v1/admin/user/login',
+        url: window.BigNew.user_login,
+        data: {
+          username: userName,
+          password: password
+        },
+        dataType: 'json',
+        success: function (res) {
+          $('.modal-body').text(res.msg);
+          $('#myModal').modal();
+          // console.log(res);
+          if (res.code == 200) {
+            //登录成功  本地存储
+            window.localStorage.setItem('token', res.token)//token -----令牌
+            //登录成功，跳转到首页
+            // window.location.href = './index.html'
+            $('#myModal').on('hidden.bs.modal', function (e) {
+              // console.log('我已经被隐藏了，你可以 干活');
+              window.location.href = './index.html';
+            })
+          }
+        }
+      })
+    })
+  })
+</script>
 
 </html>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="./libs/jquery-1.12.4.min.js"></script>
+    <script src="./libs/http.js"></script>
 
 </head>
 
@@ -69,5 +70,29 @@
         </div>
     </div>
 </body>
+
+<script>
+    // jq入口函数
+    $(function () {
+        // 开始发送ajax请求
+        $.ajax({
+            url: BigNew.user_detail,
+            type: 'get',
+            success: function (res) {
+                // console.log(res);
+                // 渲染数据到页面
+                $('.username"').val(res.data.username);
+                $('.nickname').val(res.data.nickname);
+                $('.email').val(res.data.email);
+                $('.password').val(res.data.password);
+                $('.user_pic img').attr('src', res.data.userPic)
+            }
+        })
+        // 给文件域注册change事件
+        $('#exampleInputFile').on('change', function (e) {
+            // console.log('niakej');
+        })
+    })
+</script>
 
 </html>
