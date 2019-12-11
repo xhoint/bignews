@@ -89,7 +89,7 @@
             }
         })
         // 给文件域注册change事件
-        $('#exampleInputFile').on('change', function (e) {
+        $('#exampleInputFile').on('change', function () {
             // console.log('niakej');
             // console.log(this);
             // 图片对象
@@ -137,7 +137,7 @@
                             url: window.BigNew.user_info,
                             type: 'get',
                             success: function (res) {
-                                console.log(res);
+                                // console.log(res);
                                 // 获取服务器返回的数据                       
 
                                 parent.$('.user_info span').html('欢迎&nbsp;&nbsp;' + res.data.nickname);

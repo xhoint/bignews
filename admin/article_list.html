@@ -25,11 +25,11 @@
                 <div class="col-xs-6">
                     <form class="form-inline">
                         <select id="selCategory" name="" class="form-control input-sm">
-                            <option value="">所有分类</option>
+                            <!-- <option value="">所有分类</option> -->
                             <option>未分类</option>
-                            <option>奇趣事</option>
+                            <!-- <option>奇趣事</option>
                             <option>会生活</option>
-                            <option>爱旅行</option>
+                            <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
                             <option value="">所有状态</option>
@@ -73,5 +73,30 @@
         </div>
     </div>
 </body>
+
+<script src="./libs/http.js"></script>
+<script type="text/html" id="categoryList">
+        <!-- 模板引擎 -->
+        <!-- 将所有分类放在首位 -->
+        <option value="">所有分类</option> 
+        {{each data}}
+        <option value='{{$value.id}}'>{{$value.name}}</option>
+        {{/each}}
+    </script>
+<script>
+    // 当页面加载时将需要的文章类别信息和文章条目信息展示
+    $(function () {
+        $.get({
+            url:BigNew.category_list,
+            success:function(res){
+                // console.log(res);
+                if(res.code==200){
+                    let htmlStr=template('categoryList',res);
+                    $('#selCategory').html(htmlStr);
+                }
+            }
+        })
+    })
+</script>
 
 </html>
